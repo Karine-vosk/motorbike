@@ -1,0 +1,231 @@
+var MotocallBack = function() {
+    var self = this;
+}
+MotocallBack.prototype.initVariable = function() {
+    Object.defineProperty(this, 'locale', {
+        __proto__: null,
+        value: "en"
+    });
+    Object.defineProperty(this, 'ajaxUrl', {
+        __proto__: null,
+        value: "https://demo.cms-guide.com/calls/motocallback"
+    });
+    Object.defineProperty(this, 'clearIntervalTimer', {
+        writable: true,
+        value: ''
+    });
+    Object.defineProperty(this, 'wrapper', {
+        __proto__: null,
+        value: '#motocalback__wrapper'
+    });
+    Object.defineProperty(this, 'htmlCode', {
+        __proto__: null,
+        value: " <div class=\"_step step_1\"\>\    <div class=\"title _status_passive\" style=\"display: block\"\>\        Would you like a callback <br/\> once we are back in office?\    </div\>\    <fieldset\>\        <p\>\            <input type=\"text\" placeholder=\"(201)555-5555\" id=\"input_phone_number\" class=\"chat__input\" value=\"+380669244742\"\>\            <span class=\"error_text\"\>Please, enter valid phone</span\>\        </p\>\        <button type=\"submit\" id=\"button_callme\" class=\"chat__submit\"\>Call Me</button\>\    </fieldset\>\</div\>\<div class=\"_step step_2\" style=\"display: none\"\>\    <div class=\"_status_passive\"\>\        <div class=\"title\"\>\            Our manager will get in touch with you within next 24 business hours\        </div\>\        <div class=\"chat__clock\"\>\            <figure\>\                <svg id=\"Clock\" xmlns=\"http://www.w3.org/2000/svg\" width=\"74\" height=\"74\" viewBox=\"0 0 74 74\"\> <defs\> <style\>.clockcls-1{fill: #ff8933;}.clockcls-2{fill: #fff;}.clockcls-3{fill: #ff725f;}.clockcls-3, .clockcls-4{fill-rule: evenodd;}.clockcls-4{fill: #505151;}</style\> </defs\> <circle id=\"body_shape\" data-name=\"body shape\" class=\"clockcls-1\" cx=\"37\" cy=\"37\" r=\"37\"/\> <circle id=\"inner_circle\" data-name=\"inner circle\" class=\"clockcls-2\" cx=\"37\" cy=\"37\" r=\"30\"/\> <path id=\"seconds\" class=\"clockcls-3\" d=\"M32.646,33.353l0.707-.707,18,18-0.707.707Z\"/\> <path id=\"hours\" class=\"clockcls-4\" d=\"M40,37a2.993,2.993,0,0,1-5.816,1H22a1,1,0,1,1,0-2H34.184A3.006,3.006,0,0,1,36,34.184V15a1,1,0,0,1,2,0V34.184A2.991,2.991,0,0,1,40,37Z\"/\></svg\>\            </figure\>\            <span class=\"pannel-content_inf\"\>Thank you!</span\>\        </div\>\    </div\>    \</div\>"
+    });
+    Object.defineProperty(this, 'locale', {
+        __proto__: null,
+        value: "en"
+    });
+    Object.defineProperty(this, 'id', {
+        __proto__: null,
+        value: "5"
+    });
+    Object.defineProperty(this, 'timer', {
+        __proto__: null,
+        value: "30"
+    });
+    Object.defineProperty(this, 'intltelinputinit', {
+        writable: true,
+        value: false
+    });
+    Object.defineProperty(this, 'defaultCountryISO', {
+        __proto__: null,
+        value: 'AM'
+    });
+}
+MotocallBack.prototype.countdown = function(self, minutes, seconds) {
+    var elementName = self.wrapper + " .countdown__timer";
+    var element, endTime, hours, mins, msLeft, time, milliSeconds;
+
+    function twoDigits(n) {
+        return (n <= 9 ? "0" + n : n);
+    }
+
+    function updateTimer() {
+        msLeft = endTime - (+new Date);
+        if (msLeft < 100) {
+            $(elementName).text('00:00,00');
+        } else {
+            time = new Date(msLeft);
+            hours = time.getUTCHours();
+            mins = time.getUTCMinutes();
+            milliSeconds = time.getUTCMilliseconds();
+            milliSeconds = milliSeconds.toString();
+            if (typeof milliSeconds[1] === "undefined") {
+                milliSeconds = milliSeconds[0] + '0';
+            } else {
+                milliSeconds = milliSeconds[0] + milliSeconds[1];
+            }
+            var text = hours ? (twoDigits(hours) + ':' + twoDigits(mins)) : (twoDigits(mins) + ':' + twoDigits(time.getUTCSeconds()) + ',' + milliSeconds);
+            $(elementName).text(text);
+            self.clearIntervalTimer = setTimeout(updateTimer, 10);
+        }
+    }
+    endTime = (+new Date) + 1000 * (60 * minutes + seconds) + 100;
+    updateTimer();
+}
+MotocallBack.prototype.hideMotocallback = function(wrapper) {
+    if ($(window).width() < 768) {
+        $(wrapper).hide();
+    } else {
+        $(wrapper).show();
+    }
+}
+MotocallBack.prototype.Coockie = function() {
+    this.getCookie = function(name) {
+        if (typeof name === 'undefined') {
+            return;
+        }
+        var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"))
+        return matches ? decodeURIComponent(matches[1]) : undefined
+    }
+    this.checkCookie = function(c_name) {
+        if (document.cookie.length > 0) {
+            var c_start = document.cookie.indexOf(c_name + "=");
+            if (c_start != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    this.setCookie = function(c_name, value, exdays, path) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = escape(value) + ((exdays == null) ? '' : '; expires=' + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value + "; path=" + path;
+    }
+}
+MotocallBack.prototype.work = function(self) {
+    if ($(self.wrapper).length > 0) {
+        $(self.wrapper).append(self.htmlCode);
+        var element = $(self.wrapper + ' #input_phone_number');
+        $(element).intlTelInput({
+            defaultCountry: self.defaultCountryISO,
+        });
+        $(element).intlTelInput('loadUtils', "https://www.motocms.com/website-templates/js/utils.js");
+        self.hideMotocallback(self.wrapper);
+        self.initEventHandlers(self);
+    } else {
+        setTimeout(function() {
+            self.work(self);
+        }, 1000);
+    }
+}
+MotocallBack.prototype.appendScript = function(self) {
+    if ($('#inttelinp_ksupopup').length > 0) {
+        self.work(self);
+    } else {
+        var intlTelInput = document.createElement('script');
+        intlTelInput.setAttribute('id', 'intlTelInput');
+        intlTelInput.src = "https://demo.cms-guide.com/calls/sourcemotocallback/js/intlTelInput.js";
+        document.getElementsByTagName('head')[0].appendChild(intlTelInput);
+        intlTelInput.onload = function() {
+            self.work(self);
+        }
+    }
+}
+MotocallBack.prototype.init = function() {
+    this.initVariable();
+    this.appendScript(this);
+}
+MotocallBack.prototype.initEventHandlers = function(self) {
+     /*$('.xxxx-trial_container .lasttop__btn__call, .xxxx-trial_container .lasttop__btn__buy').click(function (event) {
+        if ($(this).hasClass('showtooltip')) {
+            event.preventDefault();
+            if ($(this).hasClass('act')) {
+                $(this).removeClass('act').next().slideUp();
+            } else {
+                $(this).addClass('act').next().slideDown();
+
+            }
+        }
+    });
+    $(document).on('click', '.xxxx-trial_container, body', function (event) {
+        $('.xxxx-trial_container .lasttop__btn__call, .xxxx-trial_container .lasttop__btn__buy').removeClass('act').next().slideUp();
+    });
+    $('.xxxx-trial_container .lasttop__btn__wrapper').click(function (event) {
+        event.stopPropagation();
+    });*/
+    $(self.wrapper + ' #button_callme').click(function(event) {
+        event.preventDefault();
+        var telephoneInput = $(self.wrapper + ' #input_phone_number');
+        var isvalidPhone = $(telephoneInput).intlTelInput('isValidNumber');
+        if (!isvalidPhone) {
+            $(self.wrapper + ' fieldset').addClass('error');
+            return false;
+        }
+        $(self.wrapper + ' fieldset').removeClass('error');
+        $('#_tab_content_motocallback #_motocallback_locked').val(1);
+        $('#_tab_content_motocallback .step_2').show();
+        $('#_tab_content_motocallback .step_1').hide();
+        var statusName = $('#_motocallback_statusName').val();
+        setTimeout(function() {
+            $('#_motocallback_locked').val(0);
+            $('#_tab_content_motocallback .step_2').hide();
+            $('#_tab_content_motocallback .step_1').show();
+        }, 70 * 1000);
+        setTimeout(function() {
+            $('.complain_wrapper').show();
+        }, 32 * 1000);
+        var coockie = new self.Coockie();
+        var phone = $(telephoneInput).intlTelInput('getNumber');
+        coockie.setCookie('motocallback_phone', phone, 365, '/');
+        var timer = 30;
+        if (typeof self !== 'undefined' && typeof self.timer !== 'undefined') {
+            timer = self.timer;
+        }
+        self.countdown(self, 0, timer);
+        phone = phone.replace('+', '');
+        var coockie = new self.Coockie();
+        var motocallback_demoid = 0;
+        if (coockie.checkCookie('motocallback_demoid')) {
+            var motocallback_demoid = coockie.getCookie('motocallback_demoid');
+        }
+        $.ajax({
+            type: 'GET',
+            url: self.ajaxUrl + '/ordercall/' + self.id,
+            dataType: 'jsonp',
+            data: {
+                phone: phone,
+                locale: self.locale,
+                demoid: motocallback_demoid
+            }
+        }).success(function(data) {}).error(function(data) {});
+    });
+    $(self.wrapper + ' #input_phone_number').keydown(function(event) {
+        var keyCode = (event.keyCode ? event.keyCode : event.which);
+        if (keyCode == 13) {
+            $(self.wrapper + ' #button_callme').click();
+        }
+    });
+    $(self.wrapper + ' #complain_here').click(function(event) {
+        event.preventDefault();
+        $(self.wrapper + ' .complain_wrapper').hide();
+        $(self.wrapper + ' .complain_thank').show();
+        var phone = $(self.wrapper + ' #input_phone_number').intlTelInput('getNumber').replace('+', '');
+        $.ajax({
+            type: 'GET',
+            url: self.ajaxUrl + '/complain/' + self.id,
+            dataType: 'jsonp',
+            data: {
+                phone: phone
+            }
+        }).
+        success(function(data) {}).
+        error(function(data) {});
+    });
+}
+$(window).load(function() {
+    var motocallback = new MotocallBack();
+    motocallback.init();
+});

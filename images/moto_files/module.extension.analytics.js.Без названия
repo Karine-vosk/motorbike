@@ -1,0 +1,140 @@
+'use strict';
+
+(function() {
+    try {
+        var $rootScope;
+        angular.module('xxxx.trial')
+            .config(['$httpProvider',
+                function($httpProvider) {
+                    var regexp = new RegExp('api\.php'),
+                        interceptor = function() {
+                            return {
+                                request: function(request) {
+                                    if ($rootScope && request.method == 'POST' && regexp.test(request.url) && angular.isObject(request.data) && angular.isString(request.data['method'])) {
+                                        $rootScope.$broadcast('xxxx:http.request', request.data);
+                                    }
+                                    return request;
+                                }
+                            };
+                        };
+
+                    $httpProvider.interceptors.push(interceptor);
+
+                }])
+            .run(['$rootScope', '$state', '$location', 'xxxxTrialService', function(_$rootScope, $state, $location, TrialService) {
+                $rootScope = _$rootScope;
+                //On Website no ng state
+                if (TrialService.isWebsite()) {
+                    return;
+                }
+
+                function getAbsoluteUrl() {
+                    return $location.absUrl().replace('#!/', '');
+                }
+                function getRelativeUrl() {
+                    return $location.path();
+                }
+
+                function __getData(eventName, request) {
+                    var data = {
+                            event: eventName || 'VirtualPageView',
+                            env: {
+                                //controlPanel: TrialService.isControlPanel(),
+                                //website: TrialService.isWebsite(),
+                                place: TrialService.isControlPanel() ? 'admin' : 'website',
+                                remainingDays: TrialService.getRemaining(),
+                                expired: TrialService.isExpired()
+                            },
+                            page: {
+                                url: getAbsoluteUrl(),
+                                path: getRelativeUrl(),
+                                state: $state.current.name,
+                                title: document.title
+                            },
+                            website: {
+                                id: 0,
+                                uid: 0,
+                                template: 0,
+                                plan: 1
+                            },
+                            system: {
+                                build: 0,
+                                version: ''
+                            },
+                            user: {
+                                id: 0,
+                                role: 'guest',
+                                language: ''
+                            },
+                            client: {
+                                uuid: ''
+                            }
+                        },
+                        site = TrialService.getSite(),
+                        settings = TrialService.getSystemSettings(),
+                        user = TrialService.getCurrentUser();
+
+                    if (site) {
+                        data.website.id = site.id;
+                        data.website.uid = site.uid;
+
+                        if (site.template_number) {
+                            data.website.template = site.template_number;
+                        } else if (site.template && site.template.number) {
+                            data.website.template = site.template.number;
+                        }
+                        if (site.client && site.client.uuid) {
+                            data.client.uuid = site.client.uuid;
+                        }
+                    }
+
+                    if (settings && settings.system) {
+                        data.system.version = settings.system.version || '';
+                        data.system.build = settings.system.build || 0;
+                    }
+                    if (user) {
+                        data.user.language = user.language_code || '';
+                    }
+
+                    if (eventName == 'xxxx:http.request' && angular.isObject(request) && angular.isString(request['method'])) {
+                        var parts = request.method.split('.');
+                        data.request = {
+                            method: request.method,
+                            service: '',
+                            action: ''
+                        };
+                        if (parts.length > 1) {
+                            data.request.action = parts.pop();
+                        }
+                        if (parts.length > 0) {
+                            data.request.service = parts.join('.');
+                        }
+                    }
+
+                    return data;
+                }
+
+                function eventHandler($event, data) {
+                    if (!window['xxxxDataLayer']) {
+                        return;
+                    }
+                    var eventName = $event.name;
+                    // document.title forming after this code - use timeout or some else
+                    setTimeout(function() {
+                        try {
+                            xxxxDataLayer.push(__getData(eventName, data));
+                        } catch (e) {
+                            //console.error(e);
+                        }
+                    }, 500);
+                }
+
+                var events = ['$stateNotFound', '$stateChangeSuccess', '$stateChangeError', 'xxxx:http.request'];
+                for (var i = 0, len = events.length; i < len; i++) {
+                    $rootScope.$on(events[i], eventHandler);
+                }
+
+            }]);
+    } catch (e) {
+    }
+})();

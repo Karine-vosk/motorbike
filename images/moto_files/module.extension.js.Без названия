@@ -1,0 +1,33 @@
+'use strict';
+
+angular.module('xxxx.trial')
+    .config([
+        '$httpProvider',
+        function ($httpProvider, undefined) {
+            var self = this,
+                regexp = new RegExp("^(http[s]?)://([^.]*)static-try([^/]+)/.+(\/mt-includes\/widgets\/[^\?]*)(.+)$");
+
+            var interceptor = [
+                '$templateCache',
+                function ($templateCache) {
+                    return {
+                        request: function (data) {
+                            if (data.method == 'GET' && regexp.test(data.url)) {
+                                var match = data.url.match(regexp),
+                                    url = data.url;
+                                if (match && match[4]) {
+                                    url = match[4];
+                                    if (!!$templateCache.get(url)) {
+                                        data.url = url;
+                                    }
+                                }
+                            }
+                            return data;
+                        }
+                    };
+                }
+            ];
+
+            $httpProvider.interceptors.push(interceptor);
+
+        }]);

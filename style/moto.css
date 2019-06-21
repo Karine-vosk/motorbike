@@ -1,0 +1,741 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #ffffff;
+    font-family: 'Montaga', serif;
+    /*Grid Layout*/
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 100%;
+    grid-template-rows:  auto auto 100px;
+    grid-template-areas: "header"
+                        "main"
+                        "footer";
+}
+
+header{
+    grid-area: header; /*grid layout*/
+}
+
+#inner_header{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: #3C3C3C;
+    width: 100%;
+    height: 80px;
+}
+
+#logo{
+    width: 170px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 1%;
+}
+
+#logo h1{
+    color: #FFFFFF;
+    margin-bottom: 5px;
+}
+
+#logo span:first-child{
+    color: #0fdc75;
+}
+
+#logo span:nth-child(2){
+    color: #FFFFCC;
+    width: 150px;
+    font-weight: lighter;
+}
+
+hr{
+    border: 0.5px solid #0fdc75;
+    display: none;
+}
+
+/*thismenu use on js*/
+#menu{
+    color: #FFFFFF;
+    width: 600px;
+    margin: 0 1%;
+}
+
+.show_menu{
+    top: 75px;
+    right: 0!important;
+    opacity: 1!important;
+}
+
+#menu > ul{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+
+}
+
+#menu > ul > li{
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+#menu > ul> li> a{
+    display: inline-block;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px 0;
+}
+
+
+#menu_drop{
+    display: none;
+    position: absolute;
+    width: 200px;
+    background-color: #3c3c3c;
+}
+
+#toggle_btn{
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    cursor: pointer;
+    display: inline;
+}
+
+#toggle_btn > span > .fa{
+    font-size: 40px;
+    color: #16c16b;
+    font-weight: 600;
+}
+
+
+/*this class  use in js*/
+.menu_scroll{
+    margin-top: -75px!important;
+    align-self: center!important;
+}
+
+.logo_vis{
+    visibility: hidden;
+}
+
+.border_scroll{
+    display: none;
+}
+
+.header_scroll{
+    height: 80px!important;
+}
+/*end js classes*/
+
+#menu_drop > li > a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 20px;
+    width: 100%;
+}
+
+#menu_drop > li{
+    list-style-type: none;
+    background-color: #1cc06d;
+    opacity: 1;
+}
+
+#last_child{
+    border-bottom: none;
+}
+
+.second_child{
+    position: relative;
+}
+
+.second_child_drop{
+    position: absolute;
+    display: none;
+    left: 100%;
+    width:100%;
+    bottom: -58px;
+    border-left: 3px solid transparent;
+}
+
+.second_child_drop > li > a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.second_child_drop > li{
+    color: #fff;
+    list-style-type: none;
+}
+
+#uniq{
+    border: none;
+}
+
+.icon{
+    width: 160px;
+}
+
+.icon a{
+    display:inline-block;
+    color: white;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.1);
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border-radius: 25px;
+    transition: background-color 2s;
+}
+
+.fab{
+    padding: 16px;
+    text-align: center;
+}
+
+main{
+    grid-area: main; /*grid layout*/
+}
+
+#moto{
+    display: flex;
+}
+
+#moto img{
+    width: 100%;
+}
+
+#content{
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+#images_cont{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+#images_cont img{
+    width: 90%;
+    height: 390px;
+    margin: 10px;
+    position: relative;
+}
+
+#images_cont a::before{
+    color: white;
+    font-size: 2vw;
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 6;
+    width: 9%;
+    transition: margin 0.5s linear;
+}
+
+#image_3::after{
+    right: 1.8%;
+}
+
+#image_1::before{
+    content: "Classic Motorcicles";
+}
+
+#image_2::before{
+    content: "Custom Motorcicles";
+}
+
+#image_3::before{
+    content: "Racing Motorcicles";
+}
+
+#images_cont a::before:hover{
+    margin-top: 10%;
+    opacity: 0.6;
+}
+
+#images_cont a:hover::before{
+    margin-top: 10%;
+    transition: all 0.1s;
+}
+
+#motorbikes_1,#motorbikes_2{
+    display: inline-block;
+    height: 380px;
+    vertical-align: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#motorbikes_1{
+    width: 60%;
+    background-image: url(../images/jk.png);
+    position: relative;
+}
+
+#motorbikes_2{
+    width: 33%;
+    background-image: url(../images/jk1.png);
+    vertical-align: top;
+    position: relative;
+}
+
+#bikes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 50px;
+}
+
+#motorbikes_1 a{
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+}
+
+#motorbikes_1  > a:first-child   {
+    position: relative;
+    z-index: 2;
+    background-color: #0fdc75;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin: 50px 0 0 50px;
+}
+
+#motorbikes_1 > p {
+    font-size: 3vw;
+}
+
+#motorbikes_1 a:last-child{
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 38px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.1s;
+    background-color: rgba(0,0,0,0.4);
+    width: 100%;
+    height: 100%;
+    padding-top: 230px;
+    padding-left: 50px;
+    box-sizing: border-box;
+}
+
+#motorbikes_1  > a:first-child:hover{
+    background-color: #2f2f2f;
+    color: #0fdc75;
+}
+
+#motorbikes_1 span:hover{
+    color: #0fdc75;
+}
+
+#motorbikes_2:after, #motorbikes_2::before{
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+}
+
+#motorbikes_2::after{
+    content: 'interwiews';
+    margin: 50px;
+    font-size: 18px;
+    position: relative;
+    z-index: 3;
+    background-color: #0fdc75;
+    border-radius: 4px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    transition: color, background-color 0.3s;
+}
+
+#motorbikes_2::before{
+    content:"Why Ryan Reynolds loves his custom Triumph Thruxton";
+    position: absolute;
+    background-color: rgba(0,0,0,0.4);
+    width: 100%;
+    height: 100%;
+    font-size: 3vw;
+    padding: 160px 0 0 50px;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    z-index: 2;
+    transition: color 0.2s;
+}
+
+#motorbikes_2:hover::before{
+    color: #0fdc75;
+    cursor: pointer;
+}
+
+#motorbikes_2:hover::after{
+    color: #0fdc75;
+    background-color: #3C3C3C;
+    cursor: pointer;
+}
+
+#self{
+    position: fixed;
+    bottom: 50px;
+    right: 150px;
+    cursor: pointer;
+    width: 80px;
+    z-index: 8;
+    float: left;
+    border-radius: 25%;
+}
+
+#self:hover p{
+    right: 90px;
+    opacity: 1;
+    visibility: visible;
+}
+
+#self img{
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 2px solid  #43b38a;
+    border-radius: 50%;
+    vertical-align:middle;
+}
+
+#self p{
+    display: inline-block;
+    visibility: hidden;
+    color: rgb(255,255,255);
+    background-color: #43b38a;
+    border-radius: 3px;
+    padding: 10px 5px;
+    font-weight: bold;
+    right: 70px;
+    top: 25px;
+    margin: 0;
+    position: absolute;
+    vertical-align:middle;
+    margin-right: 15px;
+    width: 210px;
+    transition: all 0.5s;
+    opacity: 0;
+}
+
+#self p::after{
+    content:"\f0da";
+    color: #43b38a;
+    font-size: 16px;
+    font-family: fontawesome;
+    left: 5%;
+    position: relative;
+
+}
+
+#footer{
+    grid-area: footer; /*grid layout*/
+    box-sizing: border-box;
+    background-color: #3c3c3c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer p{
+    text-align: center;
+    font-size: 12px;
+    color: rgb(255,255,255);
+}
+
+#footer b,#footer span{
+    font-size: 18px;
+    color: #0fdc75;
+}
+
+#footer b{
+    color: rgb(255,255,255);
+}
+
+.square{
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background-color: #0fdc75;
+    border-radius: 3px;
+    transition: background-color 1s;
+    z-index: 20;
+    /*animation*/
+    animation-name: cool;
+    animation-duration: 2s;
+    animation-delay: 2s;
+    animation-iteration-count: 2;
+    animation-direction: reverse;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    opacity: 0.8;
+    display: none;
+}
+
+.square:hover{
+    background-color: #888888;
+}
+
+.square i{
+    color: rgb(255,255,255);
+    padding: 0;
+    margin: 12px;
+}
+
+.up{
+    bottom: 30px;
+}
+
+/*animation for square*/
+@keyframes cool{
+    0%{background-color: #0fdc75;}
+    15%{background-color: purple;}
+    25% {background-color: blue; }
+    45%{background-color: grey;}
+    67%{background-color: brown; }
+    100%{background-color: orange;}
+    from{background-color: #0fdc75;}
+    to{background-color: purple;}
+}
+
+    /*screen works only desktop*/
+@media screen and (min-width: 768px){
+
+    #menu > ul{
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    #menu{
+        align-self: flex-end; /*right position*/
+    }
+
+    .square{
+        display: inline-block;
+    }
+
+    #toggle_btn{
+        display: none;
+    }
+
+    #menu > ul> li> a{
+        font-size: 16px;
+        border-bottom: 2px solid #3c3c3c;
+    }
+
+    hr{
+        display: block;
+    }
+
+    #inner_header{
+        height: 154px;
+    }
+
+    main{
+        margin-top: 154px;
+    }
+
+    .second_child:after{
+        content: "\f054";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: #fff;
+        position: absolute;
+        font-size: 20px;
+        bottom: 20px;
+        right: 17px;
+        display: block;
+    }
+
+    #menu_drop > li{
+        background-color: #3c3c3c;
+        border-bottom: 1px solid white;
+    }
+
+    #menu > ul > li > a:hover{
+        border-style: none;
+        border-bottom: 2px solid #0fdc75;
+        padding: 20px 0;
+        color: #0fdc75;
+    }
+
+    #menu > ul > li:hover #menu_drop{
+        display: block;
+    }
+
+    #menu_drop >li:hover .second_child_drop{
+        display: block;
+    }
+
+    .second_child_drop >li > a:hover{
+        color: #0fdc75;
+    }
+    #menu_drop > li > a:hover {
+        color: #0fdc75;
+    }
+
+    .icon  a:hover{
+        background-color: #0fdc75;
+    }
+
+    .second_child_drop > li{
+        border-bottom: 1px solid white;
+        background-color: #3c3c3c;
+    }
+
+    #images_cont a::after{
+        width: 30%;
+        height: 390px;
+        content: "";
+        display: inline-block;
+        margin: -2px;
+        position: absolute;
+        top: 0;
+        z-index: 5;
+        background-color: black;
+        opacity: 0.5;
+        transition: all 0.5s;
+    }
+
+    #image_1::after{
+        left: 1.8%;
+    }
+
+    #image_2::after{
+        left: 35.17%;
+    }
+
+    #images_cont a:hover::after{
+        opacity: 0.4;
+        background-color: white;
+    }
+
+    #images_cont{
+        display: flex;
+        flex-direction: row;
+        margin: 50px 0;
+    }
+
+    #images_cont img{
+        margin: -2px;
+    }
+
+}
+
+        /*screen works on ipad*/
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+
+    #menu{
+        align-self: center!important; /*center position*/
+    }
+}
+
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+
+    #menu{
+        align-self: center!important; /*center position*/
+    }
+
+
+}
+
+    /*works on mobile*/
+@media screen and (max-width: 767px){
+
+    #menu > ul{
+        position: absolute;
+        background: #3c3c3c;
+        width: 100%;
+        align-items: center;
+        right: -800px;
+        opacity: 0;
+        transition: 1.5s linear all;
+    }
+
+    .show_drop_menu{
+        position: relative!important;
+        display: block!important;
+        width: 100%!important;
+        left: 0!important;
+        bottom: 0!important;
+    }
+
+    #bikes{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    main{
+        margin-top: 80px;
+    }
+
+    .color_li{
+        background-color: red;
+    }
+
+    .color_drop_li{
+        opacity: 0.7!important;
+    }
+
+    .color_sec_drop_li{
+        background-color: blue!important;
+    }
+
+    #bg > li{
+        background-color: blue;
+    }
+
+    #bikes{
+        display: none;
+    }
+
+    #images_cont a::before{
+        font-size: 5vw;
+    }
+
+    #self{
+        position:absolute;
+        top: 1690px;
+        right: 20px;
+    }
+
+    #self p{
+        top: -65px;
+        left: -150px;
+    }
+
+}
